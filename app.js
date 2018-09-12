@@ -1,14 +1,18 @@
 
 const http = require('http');
+const fs = require('fs');
 
-const server = http.createServer((req, res) => {
-  if (req.url === '/') {
-    res.write('Hello World');
-    res.end();
-  }
+const file = fs.appendFile('hello-world.txt', 'Hello to this great world', (err) =>{
+  if (err) throw err;
+  console.log(`The file was created and the data was appended`);
 });
 
 
-server.listen(3000);
+const server = http.createServer(file);
 
-console.log('listneing on port 3000...');
+server.listen(3000, (err) => {
+  if (err) {
+    return console.log(`You have an error: ${err}`);
+  }
+  console.log('Server is listneing on port 3000...');
+});
